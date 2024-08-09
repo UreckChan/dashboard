@@ -1,3 +1,5 @@
+// BluetoothService.dart
+
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
@@ -12,6 +14,7 @@ class BluetoothService {
   BluetoothConnection? _connection;
   List<BluetoothDevice> _devices = [];
   BluetoothDevice? _deviceConnected;
+  String temp = '--'; // Cambiado de int a String
 
   BluetoothService() {
     _initialize();
@@ -57,6 +60,8 @@ class BluetoothService {
   void sendData(String data) {
     if (_connection?.isConnected ?? false) {
       _connection?.output.add(utf8.encode(data));
+    } else {
+      print("No está conectado");
     }
   }
 
@@ -66,6 +71,9 @@ class BluetoothService {
     _deviceConnected = device;
     _devices = [];
     _isConnecting = false;
+
+    // Enviar notificación al dispositivo conectado
+    print("Dispositivo conectado");
   }
 
   Future<void> disconnect() async {
